@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajesh Vishwakarma's Health Finder</title>
+    <style>
+        /* --- 1. Styling --- */
+:root {
+    --primary-color: #00c3ff;
+    --secondary-color: #0061ff;
+    --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --card-background: rgba(255, 255, 255, 0.07);
+    --text-color: #f0f0f0;
+    --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.4);
+    --blur-bg: blur(8px);
+}
+
+body {
+    font-family: "Poppins", "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--background-gradient);
+    color: var(--text-color);
+    transition: opacity 1s ease;
+    opacity: 0;
+}
+
+/* Intro animation */
+#intro-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    z-index: 1000;
+    animation: fade-out 2s forwards 0.5s;
+}
+@keyframes fade-out {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+/* Header with glow effect */
+header {
+    backdrop-filter: var(--blur-bg);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: var(--shadow-light);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#name-corner {
+    font-weight: 600;
+    font-size: 1.3em;
+    color: var(--primary-color);
+    text-shadow: 0 0 8px rgba(0,195,255,0.6);
+}
+
+/* Buttons */
+nav button {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    margin-left: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+nav button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0,195,255,0.6);
+}
+
+/* Main section */
+main {
+    padding: 25px;
+    max-width: 950px;
+    margin: 30px auto;
+    backdrop-filter: var(--blur-bg);
+    background: var(--card-background);
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    min-height: 450px;
+}
+
+/* Search bar */
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.search-container input {
+    flex-grow: 1;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: var(--text-color);
+    font-size: 1em;
+    outline: none;
+}
+.search-container input::placeholder {
+    color: #aaa;
+}
+.search-container button {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.search-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(0,195,255,0.6);
+}
+
+/* Result cards */
+.result-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 5px solid var(--primary-color);
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+    animation: fadeIn 0.6s ease-out;
+}
+.result-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 8px;
+    font-size: 1.2em;
+}
+.result-card p strong {
+    color: var(--secondary-color);
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Disclaimer */
+.disclaimer {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255,0,0,0.15);
+    border: 1px solid rgba(255,0,0,0.4);
+    color: #ffb3b3;
+    border-radius: 8px;
+    font-size: 0.9em;
+}
+
+/* Titles */
+h2#main-title {
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0,195,255,0.6);
+    margin-bottom: 20px;
+}
+/* --- Bright Neon Gradient Subheading Style --- */
+.result-card h4,
+.result-card p strong {
+    background: linear-gradient(90deg, #00ffff, #ff00cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(0,255,255,0.3);
+}
+
+.result-card h4 {
+    border-bottom: 1px dashed rgba(255,255,255,0.15);
+    padding-bottom: 4px;
+    margin-top: 15px;
+    font-size: 1.05em;
+}
+
+.result-card h4::before {
+    content: "▹ ";
+    background: linear-gradient(90deg, #00ffff, #ff00cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Gold-orange gradient for disease section headings */
+.disease-section h4,
+.treatment-section h4 {
+    background: linear-gradient(90deg, #ffcc00, #ff6600);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255,180,0,0.4);
+    font-weight: 600;
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">One Step Faster</div>
+
+    <header>
+        <div id="name-corner">⚕ Rajesh Vishwakarma</div>
+        <nav>
+            <button onclick="setSearchType('drug')">Search Drug/Brand</button>
+            <button onclick="setSearchType('disease')">Search Disease</button>
+        </nav>
+    </header>
+
+    <main>
+        <h2 id="main-title">Find Drug Information</h2>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Enter a generic drug name (e.g., Advil, Amoxicillin)" onkeypress="if(event.key === 'Enter') performSearch()">
+            <button onclick="performSearch()">Search</button>
+        </div>
+
+        <p id="search-status" style="color: gray;"></p>
+
+        <div id="results-area">
+            </div>
+
+        <div class="disclaimer">
+            <strong>Medical Disclaimer:</strong> This tool uses public API data for educational purposes only. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider.
+        </div>
+    </main>
+
+    <script>
+        // --- 2. JavaScript & API Logic ---
+
+        let currentSearchType = 'drug';
+        const inputElement = document.getElementById('search-input');
+        const statusElement = document.getElementById('search-status');
+        const resultsElement = document.getElementById('results-area');
+        const titleElement = document.getElementById('main-title');
+
+        // Function to set the current search type
+        function setSearchType(type) {
+            currentSearchType = type;
+            resultsElement.innerHTML = '';
+            statusElement.textContent = `Ready to search: ${type === 'drug' ? 'Drug/Brand' : 'Disease'}`;
+
+            let placeholder = '';
+            if (type === 'drug') {
+                placeholder = 'Enter a generic or brand name (e.g., Advil, Amoxicillin)';
+                titleElement.textContent = 'Find Drug Information';
+            } else if (type === 'disease') {
+                placeholder = 'Enter the disease name (e.g., Hypertension, Diabetes)';
+                titleElement.textContent = 'Find Disease Information';
+            }
+            
+            inputElement.placeholder = placeholder;
+            inputElement.value = ''; 
+        }
+
+        window.onload = () => {
+            document.body.style.opacity = 1;
+            setSearchType('drug');
+        };
+
+        // --- CORE API SEARCH FUNCTION - Final Stable Version ---
+        async function performSearch() {
+            const searchTerm = inputElement.value.trim();
+            if (!searchTerm) {
+                statusElement.textContent = "Please enter a search term.";
+                return;
+            }
+
+            statusElement.textContent = `Searching for "${searchTerm}"...`;
+            resultsElement.innerHTML = ''; 
+
+            const queryTerm = searchTerm.replace(/ /g, '+'); 
+            let drugApiUrl = '';
+            let wikipediaApiUrl = '';
+
+            if (currentSearchType === 'drug') {
+                const searchParam = `openfda.generic_name:"${queryTerm}"+OR+openfda.brand_name:"${queryTerm}"`;
+                drugApiUrl = `https://api.fda.gov/drug/label.json?search=${searchParam}&limit=3`;
+            } else if (currentSearchType === 'disease') {
+                // FINAL STABLE WIKIPEDIA: Use the REST API for a clean extract
+                wikipediaApiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${queryTerm}`;
+                
+                // FINAL STABLE FDA: Use wildcard search on the reliable 'brand_name' for relevant drug examples.
+                const brandNameSearch = `openfda.brand_name:*${queryTerm}*`;
+                drugApiUrl = `https://api.fda.gov/drug/label.json?search=${brandNameSearch}&limit=5`;
+            }
+
+            try {
+                let wikipediaData = null;
+                let drugData = null;
+
+                // 1. Fetch Wikipedia Overview (if applicable)
+                if (currentSearchType === 'disease') {
+                    const wikiResponse = await fetch(wikipediaApiUrl);
+                    if (wikiResponse.ok) {
+                        wikipediaData = await wikiResponse.json();
+                    } else {
+                        // Log the error but continue to drug search
+                        console.warn(`Wikipedia API failed for "${searchTerm}": ${wikiResponse.status}`);
+                    }
+                }
+
+                // 2. Fetch Drug Data (for drug search or disease treatment)
+                const drugResponse = await fetch(drugApiUrl);
+                if (!drugResponse.ok) throw new Error(`FDA API HTTP Error: ${drugResponse.status}`);
+                drugData = await drugResponse.json();
+
+                // 3. Process and Render
+                if (currentSearchType === 'drug' && drugData.results && drugData.results.length > 0) {
+                    resultsElement.innerHTML = parseDrugData(drugData.results[0]);
+                    statusElement.textContent = `Information found for "${searchTerm}".`;
+                } else if (currentSearchType === 'disease') {
+                    resultsElement.innerHTML = parseDiseaseData(wikipediaData, drugData.results || [], searchTerm);
+                    statusElement.textContent = `Information found for "${searchTerm}".`;
+                } else {
+                    resultsElement.innerHTML = `<p style="text-align: center; color: #cc0000;">No detailed information found for "${searchTerm}". Please try a different term.</p>`;
+                    statusElement.textContent = `Search complete.`;
+                }
+
+            } catch (error) {
+                console.error("API Fetch Error:", error);
+                resultsElement.innerHTML = `<p class="disclaimer" style="background-color: #ff9999; color: #660000;">**API Error:** Could not complete the search. (Reason: ${error.message}). Check your browser console (F12) for details. Please ensure you are connected to the internet.</p>`;
+                statusElement.textContent = `Search failed.`;
+            }
+        }
+
+        // --- 3. DATA PROCESSING FUNCTIONS (Short and Direct) ---
+
+        // Utility to clean up and limit text for brevity (for Drug Use/Side Effects)
+        function cleanText(text, maxSentences = 2) {
+            if (!text || typeof text !== 'string') return 'N/A';
+            let cleaned = text.replace(/^\s*[\d\.\-]+\s*/gm, '').replace(/\n/g, ' ').trim();
+            const parts = cleaned.match(/[^.!?]+[.!?]/g) || [cleaned]; 
+            
+            if (parts.length > maxSentences) {
+                return parts.slice(0, maxSentences).join(' ').trim() + '...';
+            }
+            return cleaned.trim();
+        }
+
+        function parseDrugData(result) {
+            const genericName = result.openfda?.generic_name?.[0] || 'N/A';
+            const brandNames = result.openfda?.brand_name?.slice(0, 3).join(', ') || 'N/A';
+            const manufacturer = result.openfda?.manufacturer_name?.[0] || 'Unknown';
+            
+            // Mechanism of Action: FIX: No sentence limiting for a full, rational answer
+            const moaText = result.mechanism_of_action?.[0] || 'Mechanism of action not available.';
+            const rationalMoA = moaText.replace(/^\s*[\d\.\-]+\s*/gm, '').replace(/\n/g, ' ').trim() || 'N/A';
+
+            // Get Primary Use (kept short)
+            const usageText = result.indications_and_usage?.[0] || 'No primary use information found.';
+            const shortUsage = cleanText(usageText, 2);
+
+            // Get Short Side Effect Summary (kept short)
+            const reactionText = result.adverse_reactions?.[0] || 'No known common side effects listed.';
+            const shortReactions = cleanText(reactionText, 1);
+            
+            return `
+                <div class="result-card">
+                    <h3>💊 Drug: ${genericName}</h3>
+                    <p><strong>Brand Name(s):</strong> ${brandNames}</p>
+                    <div style="border-left: 2px solid #ccc; padding-left: 10px; margin: 10px 0;">
+                        <p><strong>Mechanism of Action:</strong> ${rationalMoA}</p>
+                    </div>
+                    <p><strong>Primary Use:</strong> ${shortUsage}</p>
+                    <p><strong>Common Side Effects:</strong> ${shortReactions}</p>
+                    <p style="font-size:0.85em; margin-top:10px;"><em>Manufacturer: ${manufacturer}</em></p>
+                </div>
+            `;
+        }
+        
+        function parseDiseaseData(wikipediaData, drugResults, searchTerm) {
+            
+            let diseaseName = searchTerm.toUpperCase();
+            // FIX: If data is null, provide a better error message than the generic one
+            let overview = `No detailed overview found for "${searchTerm}". The external data source did not provide a summary. Try ensuring the search term is the formal name (e.g., "Hypertension" instead of "High BP").`; 
+            
+            // --- PART 1: DISEASE INTRODUCTION (From Wikipedia) ---
+            if (wikipediaData && wikipediaData.extract) {
+                // FIX: Title is reliable with this new API call
+                diseaseName = wikipediaData.title.toUpperCase();
+                overview = wikipediaData.extract.replace(/\s*\(.*\)\s*/g, ' ').trim(); 
+            }
+
+            // --- PART 2: TREATMENT (Using openFDA drug results) ---
+            // We are using Brand Name fuzzy search, so we list Brand Names
+            const treatments = drugResults.map(r => r.openfda?.brand_name?.[0])
+                                         .filter((name, index, self) => name && self.indexOf(name) === index) 
+                                         .slice(0, 3); 
+
+            const treatmentList = treatments.length > 0
+                ? treatments.map(name => `<li>${name}</li>`).join('')
+                : '<li>No common drug treatments found in the database for this search term.</li>';
+
+            return `
+                <div class="result-card">
+                    <h3>🦠 ${diseaseName}</h3>
+                    
+                    <div class="disease-section">
+                        <h4>**Introduction & Cause**</h4>
+                        <p>${overview}</p>
+                        <p style="font-size:0.85em;">*Data sourced from Wikipedia. Consult a doctor for diagnosis and primary/secondary cause determination.*</p>
+                    </div>
+
+                    <div class="treatment-section">
+                        <h4>**Common Drug Treatments (Brand Examples)**</h4>
+                        <ul style="padding-left: 20px;">
+                            ${treatmentList}
+                        </ul>
+                        <p style="font-size:0.85em;">*These are examples of active ingredients often used to manage this condition (sourced from FDA drug labels via stable search).*</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
